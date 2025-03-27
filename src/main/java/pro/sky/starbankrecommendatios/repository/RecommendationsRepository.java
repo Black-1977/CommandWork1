@@ -29,13 +29,13 @@ public class RecommendationsRepository {
     }
 
     public boolean isSaving(UUID user){
-        Integer result = jdbcTemplate.queryForObject( "SELECT COUNT(t.user_id) FROM transactions t INNER JOIN products p ON t.product_id = p.id WHERE t.user_id = ? AND p.TYPE IN ('DEBIT', 'SAVING') GROUP BY p.TYPE t.TYPE HAVING SUM(t.AMOUNT) > 50000 AND (p.TYPE='SAVING' OR p.TYPE='DEBIT')",
+        Integer result = jdbcTemplate.queryForObject( "SELECT COUNT(t.user_id) FROM transactions t INNER JOIN products p ON t.product_id = p.id WHERE t.user_id = ? AND p.TYPE IN ('DEBIT', 'SAVING') GROUP BY p.TYPE, t.TYPE HAVING SUM(t.AMOUNT) > 50000 AND (p.TYPE='SAVING' OR p.TYPE='DEBIT')",
                 Integer.class, user);
         return result > 0;
     }
 
     public boolean isCredit(UUID user){
-        Integer result = jdbcTemplate.queryForObject( "SELECT COUNT(t.user_id) FROM transactions t INNER JOIN products p ON t.product_id = p.id WHERE t.user_id = ? AND p.TYPE NOT IN ('CREDIT') AND p.TYPE IN ('DEBIT') GROUP BY p.TYPE t.TYPE HAVING SUM(t.AMOUNT) > 100000 AND p.TYPE='DEBIT' AND t.TYPE='DEPOSIT')",
+        Integer result = jdbcTemplate.queryForObject( "SELECT COUNT(t.user_id) FROM transactions t INNER JOIN products p ON t.product_id = p.id WHERE t.user_id = ? AND p.TYPE NOT IN ('CREDIT') AND p.TYPE IN ('DEBIT') GROUP BY p.TYPE, t.TYPE HAVING SUM(t.AMOUNT) > 100000 AND p.TYPE='DEBIT' AND t.TYPE='DEPOSIT')",
                 Integer.class, user);
         return result > 0;
     }
