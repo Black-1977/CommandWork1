@@ -53,6 +53,6 @@ public class Recommendation {
     public String toString() {
         return "name:" + name +
                 ", id:" + id +
-                ", text:" + text + '\n';
+                ", text:" + text;
     }
 }

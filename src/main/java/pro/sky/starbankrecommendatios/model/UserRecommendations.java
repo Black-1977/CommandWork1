@@ -15,10 +15,8 @@ public class UserRecommendations {
 
     @Override
     public String toString() {
-        return "{" +
-                "userId=" + userId +
-                ", recommendations=" + recommendations +
-                '}';
+        return "{ userId=" + userId +
+                ", recommendations=" + recommendations + "}";
     }
 
     @Override
