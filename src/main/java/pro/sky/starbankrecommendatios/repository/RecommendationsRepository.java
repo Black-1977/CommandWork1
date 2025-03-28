@@ -35,7 +35,7 @@ public class RecommendationsRepository {
     }
 
     public boolean isCredit(UUID user){
-        Integer result = jdbcTemplate.queryForObject( "SELECT SUM(t.AMOUNT) FROM transactions t INNER JOIN products p ON t.product_id = p.id WHERE t.user_id = ? AND p.TYPE NOT IN ('CREDIT') GROUP BY p.TYPE, t.TYPE HAVING (SUM(t.AMOUNT) >= 100000 AND t.TYPE ='DEPOSIT' AND p.TYPE='DEBIT') AND ((SUM(t.AMOUNT) AND p.TYPE ='DEBIT' AND t.TYPE ='DEPOSIT') > (SUM(t.AMOUNT) AND p.TYPE='DEBIT' AND t.TYPE ='WITHDRAW'))",
+        Integer result = jdbcTemplate.queryForObject( "SELECT SUM(t.AMOUNT)  FROM transactions t INNER JOIN products p ON t.product_id = p.id WHERE t.user_id = ? AND p.TYPE NOT IN ('CREDIT') GROUP BY p.TYPE, t.TYPE HAVING (SUM(t.AMOUNT) >= 100000 AND t.TYPE ='DEPOSIT' AND p.TYPE='DEBIT') AND ((SUM(t.AMOUNT) AND p.TYPE='DEBIT' AND t.TYPE ='DEPOSIT') > (SUM(t.AMOUNT) AND p.TYPE='DEBIT' AND t.TYPE ='WITHDRAW'))",
                 Integer.class, user);
         return result > 0;
     }
