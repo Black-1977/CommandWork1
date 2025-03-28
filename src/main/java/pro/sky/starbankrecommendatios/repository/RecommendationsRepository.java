@@ -23,10 +23,10 @@ public class RecommendationsRepository {
         return result != null ? result : 0;
     }
 
-    public Boolean isInvest(UUID user){
+    public boolean isInvest(UUID user){
         Integer result;
         try {result = jdbcTemplate.queryForObject( "SELECT SUM(t.AMOUNT) FROM transactions t INNER JOIN products p ON t.product_id = p.id WHERE t.user_id = ? AND p.TYPE NOT IN ('INVEST') AND p.TYPE IN ('DEBIT', 'SAVING') GROUP BY p.TYPE HAVING SUM(t.AMOUNT) > 1000 AND p.TYPE='SAVING'",
-        Integer.class, user);}
+                Integer.class, user);}
         catch (EmptyResultDataAccessException e) { result = 0;};
         return result > 0;
     }
