@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import pro.sky.starbankrecommendatios.model.UserRecommendations;
-import pro.sky.starbankrecommendatios.repository.RecommendationsRepository;
 
 import java.util.UUID;
 
