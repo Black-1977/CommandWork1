@@ -1,13 +1,20 @@
 package pro.sky.starbankrecommendatios.model;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class Recommendation {
     private String name;
-    private String id;
+    private UUID id;
     private String text;
 
     public Recommendation(String name, String id, String text) {
+        this.name = name;
+        this.id = UUID.fromString(id);
+        this.text = text;
+    }
+
+    public Recommendation(String name, UUID id, String text) {
         this.name = name;
         this.id = id;
         this.text = text;
@@ -21,11 +28,11 @@ public class Recommendation {
         this.name = name;
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -52,7 +59,7 @@ public class Recommendation {
     @Override
     public String toString() {
         return "name:" + name +
-                ", id:" + id +
+                ", id:" + id.toString() +
                 ", text:" + text;
     }
 }
