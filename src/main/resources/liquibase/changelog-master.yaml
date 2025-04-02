@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: liquibase/scripts/create_RECOMMENDATIONS_TABLE.sql
+  - include:
+      file: liquibase/scripts/create_USERS_DEPOSIT_transactions.sql
+  - include:
+      file: liquibase/scripts/create_USERS_WITHDRAW_transactions.sql
+  - include:
+      file: liquibase/scripts/selectAllFromWithdrawsTransesTable.sql
