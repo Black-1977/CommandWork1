@@ -1,6 +1,5 @@
 -- liquibase formatted sql
 
--- changeset formatted napkin:1
 DROP TABLE IF EXISTS recommendations_rules_table CASCADE;
 CREATE TABLE recommendations_rules_table(
     name TEXT REFERENCES recommendations_table,
