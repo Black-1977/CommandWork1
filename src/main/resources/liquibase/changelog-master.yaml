@@ -1,6 +1,18 @@
 databaseChangeLog:
   - include:
+      file: liquibase/scripts/create_RULES_TABLE.sql
+  - include:
+      file: liquibase/scripts/fill_base_RULES_TABLE.sql
+  - include:
       file: liquibase/scripts/create_RECOMMENDATIONS_TABLE.sql
+  - include:
+      file: liquibase/scripts/fill_base_RECOMMENDATIONS_TABLE.sql
+  - include:
+      file: liquibase/scripts/create_RECOMMENDATIONS_RULES_TABLE.sql
+  - include:
+      file: liquibase/scripts/fill_base_RECOMMENDATIONS_RULES_TABLE.sql
+
+
   - include:
       file: liquibase/scripts/create_USERS_DEPOSIT_transactions.sql
   - include:

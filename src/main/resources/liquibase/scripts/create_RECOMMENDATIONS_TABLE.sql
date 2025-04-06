@@ -1,9 +1,8 @@
 -- liquibase formatted sql
 
--- changeset formatted ityapkin:16
+-- changeset formatted napkin:2
+DROP TABLE IF EXISTS recommendations_table CASCADE;
 CREATE TABLE recommendations_table(
-    rec_id UUID,
-    name TEXT,
-    rules TEXT,
+    name TEXT PRIMARY KEY,
     description TEXT
 );
