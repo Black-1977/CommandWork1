@@ -12,7 +12,7 @@ public class Recommendation {
         this.description = description;
     }
 
-    public Recommendation(String name, UUID id, String text) {
+    public Recommendation(String name, UUID id, String description) {
         this.name = name;
         this.description = description;
     }

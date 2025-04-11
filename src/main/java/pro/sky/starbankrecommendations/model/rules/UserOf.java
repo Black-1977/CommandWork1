@@ -9,4 +9,6 @@ public class UserOf extends Rule {
         super(query, arguments, negate);
     }
 
+
+
 }
