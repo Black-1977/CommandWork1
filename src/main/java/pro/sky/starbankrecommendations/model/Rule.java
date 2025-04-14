@@ -14,9 +14,6 @@ public class Rule {
         this.negate = negate;
     }
 
-    public getRule(String query) {
-
-        return true;}
 
     @Override
     public String toString() {

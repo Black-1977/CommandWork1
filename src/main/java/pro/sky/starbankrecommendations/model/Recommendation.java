@@ -18,11 +18,6 @@ public class Recommendation {
         this.description = description;
     }
 
-    public verifyRules(String name) {
-        getRules()
-        return true;}
-
-    public getRule (String name) { return List<Rule>;}
 
     public String getName() {
         return name;
