@@ -1,5 +1,6 @@
 package pro.sky.starbankrecommendations.model;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -16,6 +17,7 @@ public class Recommendation {
         this.name = name;
         this.description = description;
     }
+
 
     public String getName() {
         return name;
