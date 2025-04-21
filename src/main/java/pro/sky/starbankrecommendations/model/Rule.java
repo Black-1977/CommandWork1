@@ -15,7 +15,6 @@ public class Rule {
     }
 
 
-
     @Override
     public String toString() {
         return "rule{" +
