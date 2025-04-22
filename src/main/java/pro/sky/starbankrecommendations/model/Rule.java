@@ -1,17 +1,39 @@
 package pro.sky.starbankrecommendations.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
+@Entity
 public class Rule {
+
+    @Id
+    @GeneratedValue
+    @JsonIgnore
+    private UUID id;
+
     private String query;
-    List<String> arguments;
-    boolean negate;
+    @Transient
+    private List<String> arguments;
+    private boolean negate;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    @JsonIgnore
+    private Product product;
 
     public Rule(String query, List<String> arguments, boolean negate) {
         this.query = query;
         this.arguments = arguments;
         this.negate = negate;
+    }
+
+    public Rule() {
+
     }
 
 
