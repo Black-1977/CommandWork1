@@ -1,24 +1,38 @@
 package pro.sky.starbankrecommendations.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+@Entity
 public class Product {
-    private UUID productID;
-    Recommendation recommendation;
-    List<Rule> rules;
+
+    @Id
+    @GeneratedValue
+    private UUID id;
+
+    @OneToOne
+    private Recommendation recommendation;
+
+    @OneToMany
+    private List<Rule> rules;
 
     public Product(UUID productID, Recommendation recommendation, List<Rule> rules) {
-        this.productID = productID;
+        this.id = productID;
         this.recommendation = recommendation;
         this.rules = rules;
     }
 
+    public Product() {
+    }
+
     @Override
     public String toString() {
-        return "Product{" +
-                "productID=" + productID +
+        return "{" +
+                "id=" + id +
                 ", recommendation=" + recommendation +
                 ", rules=" + rules +
                 '}';
@@ -28,20 +42,20 @@ public class Product {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Product product)) return false;
-        return Objects.equals(productID, product.productID) && Objects.equals(recommendation, product.recommendation) && Objects.equals(rules, product.rules);
+        return Objects.equals(id, product.id) && Objects.equals(recommendation, product.recommendation) && Objects.equals(rules, product.rules);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productID, recommendation, rules);
+        return Objects.hash(id, recommendation, rules);
     }
 
     public UUID getProductID() {
-        return productID;
+        return id;
     }
 
     public void setProductID(UUID productID) {
-        this.productID = productID;
+        this.id = productID;
     }
 
     public Recommendation getRecommendation() {
