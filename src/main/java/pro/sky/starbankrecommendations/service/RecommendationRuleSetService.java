@@ -20,13 +20,13 @@ RecommendationRuleSetService {
     @Autowired
     private List<RecommendationRuleSet> recommendationRuleSets;
 
-    public UserRecommendations getRecommendations(UUID user) {
+    public UserRecommendations getRecommendations(UUID userId) {
         List<Recommendation> recommendations = new ArrayList<Recommendation>();
         for (RecommendationRuleSet recommendationRuleSet : recommendationRuleSets) {
-            if (recommendationRuleSet.getRecommendations(user) != null){
-                recommendations.add(recommendationRuleSet.getRecommendations(user));
+            if (recommendationRuleSet.getRecommendations(userId) != null){
+                recommendations.add(recommendationRuleSet.getRecommendations(userId));
             }
         }
-        return  new UserRecommendations(user, recommendations);
+        return  new UserRecommendations(userId, recommendations);
     }
 }

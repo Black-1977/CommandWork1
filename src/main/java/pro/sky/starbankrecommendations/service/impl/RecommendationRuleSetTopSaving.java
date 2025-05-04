@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import pro.sky.starbankrecommendations.model.Recommendation;
 import pro.sky.starbankrecommendations.service.RecommendationRuleSet;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -24,11 +25,11 @@ public class RecommendationRuleSetTopSaving implements RecommendationRuleSet {
 
 
     @Override
-    public Recommendation getRecommendations(UUID user) {
+    public Recommendation getRecommendations(UUID userId) {
         Integer result;
         try {
             result = jdbcTemplate.queryForObject("SELECT SUM(t.AMOUNT) FROM transactions t INNER JOIN products p ON t.product_id = p.id WHERE t.user_id = ? GROUP BY p.TYPE, t.TYPE HAVING (SUM(t.AMOUNT) >= 50000 AND t.TYPE  ='DEPOSIT' AND (p.TYPE='SAVING' OR p.TYPE='DEBIT')) AND ((SUM(t.AMOUNT) AND p.TYPE='DEBIT' AND t.TYPE ='DEPOSIT') > (SUM(t.AMOUNT) AND p.TYPE='DEBIT' AND t.TYPE ='WITHDRAW'))",
-                    Integer.class, user);
+                    Integer.class, userId);
         } catch (EmptyResultDataAccessException e) {
             result = 0;
         }
@@ -38,4 +39,5 @@ public class RecommendationRuleSetTopSaving implements RecommendationRuleSet {
             return null;
         }
     }
+
 }
