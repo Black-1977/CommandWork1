@@ -1,11 +1,10 @@
 package pro.sky.starbankrecommendations.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 import pro.sky.starbankrecommendations.model.Rule;
+import pro.sky.starbankrecommendations.model.dynamic.DynamicRules;
 
 import java.util.UUID;
 
-@Repository
-public interface RuleRepository extends JpaRepository<Rule, UUID> {
+public interface RuleRepository extends JpaRepository<DynamicRules, UUID> {
 }
