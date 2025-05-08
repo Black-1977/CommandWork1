@@ -3,6 +3,7 @@ package pro.sky.starbankrecommendations.service.dynamic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import pro.sky.starbankrecommendations.exceptions.DynamicRulesNotFoundException;
 import pro.sky.starbankrecommendations.model.ProductType;
 import pro.sky.starbankrecommendations.model.Recommendation;
 import pro.sky.starbankrecommendations.model.dynamic.ConditionElementsRules;
@@ -16,18 +17,18 @@ import java.util.UUID;
 
 @Service
 public class DynamicRuleService {
-    private final Logger logger = LoggerFactory.getLogger(DynamicRules.class);// ошибки в работе приложения (УТОЧНИТЬ)
-    private RuleRepository ruleRepository;
+
+    private final Logger logger = LoggerFactory.getLogger(DynamicRuleService.class);
+    private final RuleRepository ruleRepository;
     private final RecommendationRepository recommendationsRepository;
 
     public DynamicRuleService(RuleRepository dynamicRulesRepository, RecommendationRepository recommendationsRepository) {
-        this.ruleRepository = ruleRepository;
+        this.ruleRepository = dynamicRulesRepository;
         this.recommendationsRepository = recommendationsRepository;
     }
 
-
     public DynamicRules createDynamicRule(DynamicRules dynamicRules) {
-        logger.info("Создание нового дин.правила + новое {id}", dynamicRules.getProductId(), dynamicRules.getProductName());
+        logger.info("Создание нового дин.правила {} {}", dynamicRules.getProductId(), dynamicRules.getProductName());
         return ruleRepository.save(dynamicRules);
     }
 
@@ -62,11 +63,11 @@ public class DynamicRuleService {
         for (ConditionElementsRules conditionElementsRule : dynamicRule.getConditions()) {
             boolean conditionElementsRuleResult = processQuery(id, conditionElementsRule);
 
-            if (conditionElementsRule.isNegate() == true) {//todo
+            if (conditionElementsRule.isNegate()) {//todo
                 conditionElementsRuleResult = !conditionElementsRuleResult;
 
             }
-            if (conditionElementsRuleResult == false) {
+            if (!conditionElementsRuleResult) {
                 return false;
             }
 
@@ -76,18 +77,15 @@ public class DynamicRuleService {
     }
 
     public boolean processQuery(UUID userId, ConditionElementsRules conditionElementsRules) {
-        switch (conditionElementsRules.getQuery()) { //switch что-то вроде if
-            case "USER_OF":
-                return evaluateUserOf(userId, conditionElementsRules);
-            case "ACTIVE_USER_OF":
-                return evaluateActiveUserOf(userId, conditionElementsRules);
-            case "TRANSACTION_SUM_COMPARE":
-                return evaluateTransactionSumCompare(userId, conditionElementsRules);
-            case "TRANSACTION_SUM_COMPARE_DEPOSIT_WITHDRAW":
-                return evaluateTransactionSumCompareDepositWithdraw(userId, conditionElementsRules);
-            default:
-                throw new RuntimeException(); //todo
-        }
+        //todo
+        return switch (conditionElementsRules.getQuery()) { //switch что-то вроде if
+            case "USER_OF" -> evaluateUserOf(userId, conditionElementsRules);
+            case "ACTIVE_USER_OF" -> evaluateActiveUserOf(userId, conditionElementsRules);
+            case "TRANSACTION_SUM_COMPARE" -> evaluateTransactionSumCompare(userId, conditionElementsRules);
+            case "TRANSACTION_SUM_COMPARE_DEPOSIT_WITHDRAW" ->
+                    evaluateTransactionSumCompareDepositWithdraw(userId, conditionElementsRules);
+            default -> throw new RuntimeException(); //todo
+        };
     }
 
 
@@ -95,7 +93,7 @@ public class DynamicRuleService {
         List<String> productTape = conditionElementsRules.getArguments();
         ProductType productType = ProductType.valueOf(productTape.get(0));
         boolean result = recommendationsRepository.checkTransactionProductUser(userId, productType);
-        return conditionElementsRules.isNegate() ? !result : result;// вставить в каждый ретурн
+        return conditionElementsRules.isNegate() != result;// вставить в каждый ретурн
 
     }
 
@@ -139,21 +137,14 @@ public class DynamicRuleService {
     }
 
     private boolean compareSum(int sum1, int sum2, String operator) {
-        switch (operator) {
-            case ">":
-                return sum1 > sum2;
-            case "<":
-                return sum1 < sum2;
-            case "=":
-                return sum1 == sum2;
-            case ">=":
-                return sum1 >= sum2;
-            case "<=":
-                return sum1 <= sum2;
-
-            default:
-                throw new IllegalArgumentException("Invalid operator" + operator);
-        }
+        return switch (operator) {
+            case ">" -> sum1 > sum2;
+            case "<" -> sum1 < sum2;
+            case "=" -> sum1 == sum2;
+            case ">=" -> sum1 >= sum2;
+            case "<=" -> sum1 <= sum2;
+            default -> throw new IllegalArgumentException("Invalid operator" + operator);
+        };
 
 
     }

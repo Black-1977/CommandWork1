@@ -16,18 +16,17 @@ public class DynamicRuleController {
         this.dynamicRuleService = dynamicRuleService;
     }
 
-    @PostMapping("/create")
-
+    @PostMapping
     public DynamicRules createDynamicRule(@RequestBody DynamicRules dynamicRules) {
         return dynamicRuleService.createDynamicRule(dynamicRules);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public DynamicRules deleteDynamicRule(@RequestParam UUID id) {
         return dynamicRuleService.deleteDynamicRule(id);
     }
 
-    @GetMapping("/find_all")
+    @GetMapping
     public List<DynamicRules> findAll() {
 
         return dynamicRuleService.findAll();

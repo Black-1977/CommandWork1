@@ -1,4 +1,4 @@
-package pro.sky.starbankrecommendations.service.dynamic;
+package pro.sky.starbankrecommendations.exceptions;
 
 import java.util.UUID;
 

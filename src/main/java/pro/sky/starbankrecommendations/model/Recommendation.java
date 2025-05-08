@@ -1,7 +1,5 @@
 package pro.sky.starbankrecommendations.model;
 
-
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 

@@ -25,15 +25,15 @@ public class RecommendationRuleSetCredit implements RecommendationRuleSet {
 
 
     @Override
-    public Recommendation getRecommendations(UUID userId) {
+    public Optional<Recommendation> getRecommendations(UUID userId) {
         Integer result;
         try {result = jdbcTemplate.queryForObject( "SELECT SUM(t.AMOUNT)  FROM transactions t INNER JOIN products p ON t.product_id = p.id WHERE t.user_id = ? AND p.TYPE NOT IN ('CREDIT') GROUP BY p.TYPE, t.TYPE HAVING (SUM(t.AMOUNT) >= 100000 AND t.TYPE ='DEPOSIT' AND p.TYPE='DEBIT') AND ((SUM(t.AMOUNT) AND p.TYPE='DEBIT' AND t.TYPE ='DEPOSIT') > (SUM(t.AMOUNT) AND p.TYPE='DEBIT' AND t.TYPE ='WITHDRAW'))",
                 Integer.class, userId);}
         catch (EmptyResultDataAccessException e) { result = 0;};
         if (result > 0) {
-            return CREDIT);
+            return Optional.of(CREDIT);
         } else {
-            return null;
+            return Optional.empty();
         }
     }
 

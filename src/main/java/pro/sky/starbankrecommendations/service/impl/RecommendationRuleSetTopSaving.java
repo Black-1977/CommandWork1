@@ -25,7 +25,7 @@ public class RecommendationRuleSetTopSaving implements RecommendationRuleSet {
 
 
     @Override
-    public Recommendation getRecommendations(UUID userId) {
+    public Optional<Recommendation> getRecommendations(UUID userId) {
         Integer result;
         try {
             result = jdbcTemplate.queryForObject("SELECT SUM(t.AMOUNT) FROM transactions t INNER JOIN products p ON t.product_id = p.id WHERE t.user_id = ? GROUP BY p.TYPE, t.TYPE HAVING (SUM(t.AMOUNT) >= 50000 AND t.TYPE  ='DEPOSIT' AND (p.TYPE='SAVING' OR p.TYPE='DEBIT')) AND ((SUM(t.AMOUNT) AND p.TYPE='DEBIT' AND t.TYPE ='DEPOSIT') > (SUM(t.AMOUNT) AND p.TYPE='DEBIT' AND t.TYPE ='WITHDRAW'))",
@@ -34,9 +34,9 @@ public class RecommendationRuleSetTopSaving implements RecommendationRuleSet {
             result = 0;
         }
         if (result > 0) {
-            return TOP_SAVING;
+            return Optional.of(TOP_SAVING);
         } else {
-            return null;
+            return Optional.empty();
         }
     }
 
