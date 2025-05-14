@@ -12,21 +12,19 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class
-RecommendationRuleSetService {
+public class RecommendationRuleSetService {
 
     private final Logger logger = LoggerFactory.getLogger(RecommendationRuleSetService.class);
 
     @Autowired
     private List<RecommendationRuleSet> recommendationRuleSets;
 
-    public UserRecommendations getRecommendations(UUID user) {
-        List<Recommendation> recommendations = new ArrayList<Recommendation>();
-        for (RecommendationRuleSet recommendationRuleSet : recommendationRuleSets) {
-            if (recommendationRuleSet.getRecommendations(user) != null){
-                recommendations.add(recommendationRuleSet.getRecommendations(user));
-            }
+    public UserRecommendations getRecommendations(UUID userId) {
+        List<Recommendation> recommendations = new ArrayList<>();
+        for (RecommendationRuleSet ruleSet : recommendationRuleSets) {
+            ruleSet.getRecommendations(userId)
+                    .ifPresent(recommendations::add);
         }
-        return  new UserRecommendations(user, recommendations);
+        return new UserRecommendations(userId, recommendations);
     }
 }

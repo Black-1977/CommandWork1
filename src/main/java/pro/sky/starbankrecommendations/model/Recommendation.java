@@ -3,7 +3,6 @@ package pro.sky.starbankrecommendations.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -79,4 +78,9 @@ public class Recommendation {
         return "name:" + name +
                 ", text:" + description;
     }
+
+    public String toTelegramString(){
+        return "Имя продукта: %s%nОписание продукта: %s".formatted(name, description);
+    }
+
 }
