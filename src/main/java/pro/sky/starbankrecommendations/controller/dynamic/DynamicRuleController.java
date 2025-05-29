@@ -28,7 +28,6 @@ public class DynamicRuleController {
 
     @GetMapping
     public List<DynamicRules> findAll() {
-
         return dynamicRuleService.findAll();
     }
 

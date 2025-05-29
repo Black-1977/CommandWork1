@@ -41,7 +41,6 @@ public class DynamicRuleService {
     }
 
     public List<DynamicRules> findAll() {
-
         return ruleRepository.findAll();
     }
 

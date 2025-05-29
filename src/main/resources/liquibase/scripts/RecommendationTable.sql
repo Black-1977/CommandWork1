@@ -4,7 +4,7 @@
 
 create table if not exists recommendation_table
 (
-    id          uuid default gen_random_uuid() not null primary key,
+    id          uuid default RANDOM_UUID() not null primary key,
     name        text not null,
     description text not null,
     product_id  uuid

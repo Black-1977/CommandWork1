@@ -16,12 +16,19 @@ public class DynamicRules {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)//автоматической генерации значения идентификатора
-    // при сохранении объекта в базу данных.
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
+
     private String productName;
     private String productText;
+
     private UUID productId;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ConditionElementsRules> conditions;
+
+    @Version
+    private Long version;
 
     public DynamicRules(String productText, String productName, UUID productId, List<ConditionElementsRules> conditions) {
         this.productText = productText;
@@ -39,12 +46,7 @@ public class DynamicRules {
     }
 
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 
-    @JoinColumn(name = "dynamic_rule_id")
-    private List<ConditionElementsRules> conditions;
-    @Version
-    private Long version;
 
 
     public DynamicRules() {

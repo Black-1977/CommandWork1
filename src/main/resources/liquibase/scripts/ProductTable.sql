@@ -3,7 +3,7 @@
 -- changeset Black77:1
 create table if not exists product_table
 (
-    id             uuid default gen_random_uuid() not null primary key,
+    id             uuid default RANDOM_UUID() not null primary key,
     recommendation uuid,
     rules          uuid[]
 );
