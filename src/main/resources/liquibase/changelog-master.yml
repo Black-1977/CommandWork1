@@ -1,5 +1,3 @@
 databaseChangeLog:
-  - include:
-      file: liquibase/scripts/RecommendationTable.sql
-  - include:
-      file: liquibase/scripts/RuleTable.sql
+  - includeAll:
+      path: liquibase/scripts

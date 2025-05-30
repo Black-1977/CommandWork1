@@ -17,6 +17,7 @@ public class Rule {
     private UUID id;
 
     private String query;
+
     @Transient
     private List<String> arguments;
     private boolean negate;

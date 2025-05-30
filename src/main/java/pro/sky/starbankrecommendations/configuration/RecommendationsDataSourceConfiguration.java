@@ -3,13 +3,19 @@ package pro.sky.starbankrecommendations.configuration;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.info.BuildProperties;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 
 import javax.sql.DataSource;
+import java.util.Properties;
 
 @Configuration
+@EnableCaching
 public class RecommendationsDataSourceConfiguration {
 
     @Bean(name = "recommendationsDataSource")
@@ -26,5 +32,15 @@ public class RecommendationsDataSourceConfiguration {
             @Qualifier("recommendationsDataSource") DataSource dataSource
     ) {
         return new JdbcTemplate(dataSource);
+    }
+
+    @Bean
+    public CacheManager cacheManager() {
+        return new ConcurrentMapCacheManager("InfoSystemCache");
+    }
+
+    @Bean
+    public BuildProperties buildProperties(Properties e) {
+        return new BuildProperties(e);
     }
 }

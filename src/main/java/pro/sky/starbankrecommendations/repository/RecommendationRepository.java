@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import pro.sky.starbankrecommendations.model.ProductType;
-import pro.sky.starbankrecommendations.model.Recommendation;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -19,12 +18,10 @@ public class RecommendationRepository {
 
 
     public Optional<String> findUserIdByUserName(String name) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT id From users WHERE username=?",
+        return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT id From users WHERE username = ?",
                 String.class, name));
 
-
     }
-
 
     public int getRandomTransactionAmount(UUID user) {
         Integer result = jdbcTemplate.queryForObject(

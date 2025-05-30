@@ -19,7 +19,7 @@ public class RecommendationsCommandsController {
     }
 
 
-    @GetMapping("/recommendation/{user_id}")//ПОЗЖЕ изменить НАЗВАНИЯ по базе данных
+    @GetMapping("/recommendation/{user_id}")
     public RecommendationView getRecommendation(@PathVariable("user_id") UUID userId) {
         return recommendationService.getRecommendation(userId);
     }

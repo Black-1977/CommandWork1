@@ -1,9 +1,7 @@
 package pro.sky.starbankrecommendations.model.dynamic;
 
 import com.fasterxml.jackson.databind.deser.std.UUIDDeserializer;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -13,9 +11,14 @@ import java.util.UUID;
 public class ConditionElementsRules {
     @Id
     @GeneratedValue
-    private UUID id;//не финал так как меняется
-    private String query;//запрос
+    private UUID id;
+
+    private String query;
+
+    @Column(name = "arguments")
+    @Convert(converter = StringListConverter.class)
     private List<String> arguments;
+
     private boolean negate;
 
     public ConditionElementsRules(boolean negate, String query, List<String> arguments) {

@@ -1,0 +1,66 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001_create_dynamic_rules
+      author: anny_sit
+      changes:
+        - dropTable:
+            tableName: recommendation_table
+            cascadeConstraints: true
+        - dropTable:
+            tableName: condition_elements_rules
+            cascadeConstraints: true
+        - dropTable:
+            tableName: dynamic_rules
+            cascadeConstraints: true
+        - createTable:
+            tableName: dynamic_rules
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  defaultValueComputed: RANDOM_UUID()
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: product_id
+                  type: UUID
+              - column:
+                  name: product_name
+                  type: VARCHAR(255)
+              - column:
+                  name: product_text
+                  type: VARCHAR(255)
+              - column:
+                  name: version
+                  type: BIGINT
+  - changeSet:
+      id: 002_create_condition_elements_rules
+      author: anny_sit
+      changes:
+        - createTable:
+            tableName: condition_elements_rules
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  defaultValueComputed: RANDOM_UUID()
+                  constraints:
+                      primaryKey: true
+              - column:
+                  name: dynamic_rule_id
+                  type: UUID
+                  constraints:
+                    foreignKey:
+                      name: FK_condition_elements_rules_dynamic_rule
+                      referencedTableName: dynamic_rules
+                      referencedColumnName: id
+                      onDelete: CASCADE
+              - column:
+                  name: query
+                  type: VARCHAR(255)
+              - column:
+                  name: arguments
+                  type: VARCHAR(1000)
+              - column:
+                  name: negate
+                  type: BOOLEAN
