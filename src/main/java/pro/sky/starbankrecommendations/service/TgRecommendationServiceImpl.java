@@ -2,6 +2,8 @@ package pro.sky.starbankrecommendations.service;
 
 
 import com.pengrad.telegrambot.request.SendMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pro.sky.starbankrecommendations.model.Recommendation;
 import pro.sky.starbankrecommendations.repository.RecommendationRepository;
@@ -14,6 +16,8 @@ import java.util.UUID;
 @Service
 public class TgRecommendationServiceImpl {
 
+    private final static Logger logger = LoggerFactory.getLogger(TgRecommendationServiceImpl.class);
+
     private final DynamicRuleService dynamicRuleService;
     private final RecommendationRepository recommendationRepository;
 
@@ -23,9 +27,11 @@ public class TgRecommendationServiceImpl {
     }
 
     public SendMessage getRecommendationsForTgUser(String message, Long chatId) {
-        String usernameIn = message.substring(11).trim();
+        String usernameIn = message.replaceAll("/recommend", "").trim();
+        logger.debug("user usernameIn: {}", usernameIn);
 
-        UUID userId = UUID.fromString(checkUsername(usernameIn));
+        UUID userId = checkUsername(usernameIn);
+        logger.debug("user uuid: {}", userId);
 
         List<Recommendation> recommendationsByUserId = dynamicRuleService.getRecommendationsByUserId(userId);
         StringBuilder stringBuilder = new StringBuilder();
@@ -35,8 +41,8 @@ public class TgRecommendationServiceImpl {
         return new SendMessage(chatId, stringBuilder.toString());
     }
 
-    private String checkUsername(String username) {
-        return recommendationRepository.findUserIdByUserName(username).orElse("woooops");
+    private UUID checkUsername(String username) {
+        return recommendationRepository.findUserIdByUserName(username).orElse(null);
     }
 
 }

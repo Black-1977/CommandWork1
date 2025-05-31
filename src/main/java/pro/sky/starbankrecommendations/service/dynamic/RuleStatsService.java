@@ -16,7 +16,7 @@ public class RuleStatsService {
             stats = new RuleStats(ruleId, 0);
             ruleStatsMap.put(ruleId, stats);
         }
-        stats.increaseCount();//метод из модели RuleStats который прибавляет +1 к счетчику
+        stats.increaseCount();
     }
 
     public List<RuleStats> getAllStatsRule() {

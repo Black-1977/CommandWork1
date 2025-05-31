@@ -20,12 +20,6 @@ public class StatsActivationsController {
     @GetMapping("/Stats/Activations")
     public List<RuleStats> getStatsActivation() {
         List<RuleStats> stats = ruleStatsService.getAllStatsRule();
-
-
-        if (stats.isEmpty()) {
-
-
-        }
         return stats;
     }
 

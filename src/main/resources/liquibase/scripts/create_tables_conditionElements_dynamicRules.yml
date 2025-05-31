@@ -3,22 +3,13 @@ databaseChangeLog:
       id: 001_create_dynamic_rules
       author: anny_sit
       changes:
-        - dropTable:
-            tableName: recommendation_table
-            cascadeConstraints: true
-        - dropTable:
-            tableName: condition_elements_rules
-            cascadeConstraints: true
-        - dropTable:
-            tableName: dynamic_rules
-            cascadeConstraints: true
         - createTable:
             tableName: dynamic_rules
             columns:
               - column:
                   name: id
                   type: UUID
-                  defaultValueComputed: RANDOM_UUID()
+                  defaultValueComputed: gen_random_uuid()
                   constraints:
                     primaryKey: true
               - column:
@@ -43,9 +34,9 @@ databaseChangeLog:
               - column:
                   name: id
                   type: UUID
-                  defaultValueComputed: RANDOM_UUID()
+                  defaultValueComputed: gen_random_uuid()
                   constraints:
-                      primaryKey: true
+                    primaryKey: true
               - column:
                   name: dynamic_rule_id
                   type: UUID
