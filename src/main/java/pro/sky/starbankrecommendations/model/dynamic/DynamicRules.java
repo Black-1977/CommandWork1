@@ -9,6 +9,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
+@Table(name = "dynamic_rules")
 public class DynamicRules {
     public void setId(UUID id) {
         this.id = id;
@@ -106,7 +107,6 @@ public class DynamicRules {
     }
 
     @Override
-
     public boolean equals(Object o) {
         if (this == o) {
             return true;

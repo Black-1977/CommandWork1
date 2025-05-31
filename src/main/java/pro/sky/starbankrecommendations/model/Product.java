@@ -1,12 +1,20 @@
 package pro.sky.starbankrecommendations.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import pro.sky.starbankrecommendations.model.dynamic.ConditionElementsRules;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Product {
 
@@ -18,16 +26,7 @@ public class Product {
     private Recommendation recommendation;
 
     @OneToMany
-    private List<Rule> rules;
-
-    public Product(UUID productID, Recommendation recommendation, List<Rule> rules) {
-        this.id = productID;
-        this.recommendation = recommendation;
-        this.rules = rules;
-    }
-
-    public Product() {
-    }
+    private List<ConditionElementsRules> rules;
 
     @Override
     public String toString() {
@@ -50,27 +49,4 @@ public class Product {
         return Objects.hash(id, recommendation, rules);
     }
 
-    public UUID getProductID() {
-        return id;
-    }
-
-    public void setProductID(UUID productID) {
-        this.id = productID;
-    }
-
-    public Recommendation getRecommendation() {
-        return recommendation;
-    }
-
-    public void setRecommendation(Recommendation recommendation) {
-        this.recommendation = recommendation;
-    }
-
-    public List<Rule> getRules() {
-        return rules;
-    }
-
-    public void setRules(List<Rule> rules) {
-        this.rules = rules;
-    }
 }

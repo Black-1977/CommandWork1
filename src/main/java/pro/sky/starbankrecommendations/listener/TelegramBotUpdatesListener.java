@@ -30,21 +30,45 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     @Override
     public int process(List<Update> updates) {
-        updates.forEach(update -> {
-            logger.info("Processing update: {}", update);
-            if (update.message().text().equals("/start")) {
-                SendMessage message = new SendMessage(update.message().chat().id(),
-                        "Hi! Need my recommendations? Write me /recommend (your_username) and get it!");
-                telegramBot.execute(message);
-            } else if (!update.message().text().startsWith("/recommend ")){
-                SendMessage message = new SendMessage(update.message().chat().id(),
-                        "Sorry I know only one command /recommend (your_username)");
-                telegramBot.execute(message);
-            }
-            SendMessage toSend = tgRecommendationService.getRecommendationsForTgUser(update.message().text(), update.message().chat().id());
-            telegramBot.execute(toSend);
-        });
-        return UpdatesListener.CONFIRMED_UPDATES_ALL;
-    }
+        try {
+            logger.debug("Received {} updates", updates.size());
+            for (Update update : updates) {
+                try {
+                    logger.info("Processing update: {}", update);
+                    // Проверка, что сообщение существует и содержит текст
+                    if (update.message() == null || update.message().text() == null) {
+                        logger.warn("Non-text update received: {}", update);
+                        continue;
+                    }
 
+                    String text = update.message().text().trim();
+                    long chatId = update.message().chat().id();
+
+                    if (text.equals("/start")) {
+                        SendMessage message = new SendMessage(chatId,
+                                "Hi! Need my recommendations? Write /recommend <your_username>");
+                        telegramBot.execute(message);
+                    } else if (!text.startsWith("/recommend ")) {
+                        SendMessage message = new SendMessage(chatId,
+                                "Sorry, I know only one command: /recommend <your_username>");
+                        telegramBot.execute(message);
+                    } else {
+                        // Обработка команды /recommend
+                        SendMessage toSend = tgRecommendationService.getRecommendationsForTgUser(text, chatId);
+                        if (toSend != null) {
+                            telegramBot.execute(toSend);
+                        } else {
+                            logger.warn("No response from recommendation service for text: {}", text);
+                        }
+                    }
+                } catch (Exception e) {
+                    logger.error("Error processing update: {}", update, e);
+                }
+            }
+            return UpdatesListener.CONFIRMED_UPDATES_ALL;
+        } catch (Exception e) {
+            logger.error("Error in process method", e);
+            return UpdatesListener.CONFIRMED_UPDATES_ALL;
+        }
+    }
 }

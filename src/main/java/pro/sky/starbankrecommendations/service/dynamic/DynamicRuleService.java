@@ -135,7 +135,7 @@ public class DynamicRuleService {
         return conditionElementsRules.isNegate() ? !result : result;
     }
 
-    private boolean compareSum(int sum1, int sum2, String operator) {
+    public boolean compareSum(int sum1, int sum2, String operator) {
         return switch (operator) {
             case ">" -> sum1 > sum2;
             case "<" -> sum1 < sum2;

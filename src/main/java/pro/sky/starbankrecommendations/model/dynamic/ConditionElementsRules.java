@@ -1,13 +1,21 @@
 package pro.sky.starbankrecommendations.model.dynamic;
 
-import com.fasterxml.jackson.databind.deser.std.UUIDDeserializer;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+@Getter
+@Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "condition_elements_rules")
 public class ConditionElementsRules {
     @Id
     @GeneratedValue
@@ -20,43 +28,6 @@ public class ConditionElementsRules {
     private List<String> arguments;
 
     private boolean negate;
-
-    public ConditionElementsRules(boolean negate, String query, List<String> arguments) {
-        this.negate = negate;
-        this.query = query;
-        this.arguments = arguments;
-    }
-
-    public ConditionElementsRules() {
-    }
-
-    public String getQuery() {
-
-        return query;
-    }
-
-    public void setQuery(String query) {
-
-        this.query = query;
-    }
-
-    public List<String> getArguments() {
-        return arguments;
-    }
-
-    public void setArguments(List<String> arguments) {
-
-        this.arguments = arguments;
-    }
-
-    public boolean isNegate() {
-        return negate;
-    }
-
-    public void setNegate(boolean negate) {
-
-        this.negate = negate;
-    }
 
 
     @Override
